@@ -2,7 +2,7 @@
   "name": "mern_backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "Api.js",
   "scripts": {
     "start" : "node Api.js",
     "test": "echo \"Error: no test specified\" && exit 1"
