@@ -9,8 +9,8 @@ app.use(cors());
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
-const JWT_SECRET =
-  "dkflj9354dklfj309574dlkfj430958lkdjf430985klfj3098538jfdkfjd903583k3n3kj3l5j3k53n5jj5n";
+const JWT_SECRET = process.env.JWT_SECRET;
+  
 
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
@@ -28,9 +28,8 @@ app.listen(5000, () => {
   console.log("Server Started");
 });
 
-mongoUrl =
-  // "mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/GLP?retryWrites=true&w=majority";
-  "mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/?retryWrites=true&w=majority";
+mongoUrl = process.env.MONGO_URL ;
+  
 // mongoose
 //   .connect(mongoUrl, { useNewUrlParser: true })
 //   .then(() => {
