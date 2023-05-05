@@ -43,6 +43,10 @@ mongoose
     console.log(e);
   });
 
+app.get("/", async (req, res) => {
+  res.send("working");
+});
+
 require("./User");
 const User = mongoose.model("Students");
 app.get("/getAllUser", async (req, res) => {
@@ -77,7 +81,7 @@ app.post("/Userlogin", async (req, res) => {
     const user = await User.findOne({ email });
     console.log(user);
     if (!user) {
-      return res.json({ error: "User Not found" });
+      return res.json({ error: "Invalid Credentials" });
     }
 
     if (await bcrypt.compare(password, user.password)) {
@@ -99,7 +103,7 @@ app.post("/Userlogin", async (req, res) => {
         password: user.password,
       });
     }
-    res.json({ status: "error", error: "Invalid Password" });
+    res.json({ status: "error", error: "Invalid Credentials" });
   } catch (error) {
     console.log(error);
   }
