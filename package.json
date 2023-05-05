@@ -1,7 +1,7 @@
 {
   "name": "mern_backend",
   "version": "2.0.0",
-  "description": "",
+  "description": "Full stack Web Application",
   "main": "Api.js",
   "scripts": {
     "start" : "node Api.js",
