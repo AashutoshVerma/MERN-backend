@@ -12,7 +12,6 @@ const bcrypt = require("bcrypt"); //for encrypting our passwords.
 const jwt = require("jsonwebtoken"); //for using JWT in other application.
 //creating secret key, on the basis of which JWT token will be generated.
 const JWT_SECRET = process.env.JWT_SECRET;
-// "dkflj9354dklfj309574dlkfj430958lkdjf430985klfj3098538jfdkfjd903583k3n3kj3l5j3k53n5jj5n";
 
 const session = require("express-session"); // for using sessions in our application.
 const cookieParser = require("cookie-parser"); //  for using cookie in our application.
@@ -33,7 +32,6 @@ app.listen(5000, () => {
 //connecting with our mongoDB database using cloud mongoUrl
 
 mongoUrl = process.env.MONGO_URL;
-// ("mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/?retryWrites=true&w=majority");
 
 mongoose
   .connect(mongoUrl, { useNewUrlParser: true })
