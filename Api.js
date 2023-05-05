@@ -31,12 +31,12 @@ app.listen(5000, () => {
 mongoUrl =
   // "mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/GLP?retryWrites=true&w=majority";
   "mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/?retryWrites=true&w=majority";
-// mongoose
-//   .connect(mongoUrl, { useNewUrlParser: true })
-//   .then(() => {
 mongoose
-  .connect("mongodb://127.0.0.1:27017/GLP", { useNewUrlParser: true })
+  .connect(mongoUrl, { useNewUrlParser: true })
   .then(() => {
+    // mongoose
+    //   .connect("mongodb://127.0.0.1:27017/GLP", { useNewUrlParser: true })
+    //   .then(() => {
     console.log("Connected to Database!!");
   })
   .catch((e) => {
