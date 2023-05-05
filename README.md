@@ -1,4 +1,4 @@
-# Welcome to the frontend of our MERN application! 👋
+# Welcome to the Backend of our MERN application! 👋
 
 ## Introduction
 
