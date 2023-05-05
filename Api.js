@@ -1,19 +1,21 @@
-const express = require("express");
+const express = require("express"); // creating Express Application.
 const app = express();
-app.use(express.json());
+app.use(express.json()); // to use json format for data transfer.
 
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); //for connection with mongoDB
 
-const cors = require("cors");
-app.use(cors());
-const bcrypt = require("bcrypt");
+const cors = require("cors"); // for cross origin data transfer between applications.
+app.use(cors()); //using cors in our express application.
 
-const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt"); //for encrypting our passwords.
+
+const jwt = require("jsonwebtoken"); //for using JWT in other application.
+//creating secret key, on the basis of which JWT token will be generated.
 const JWT_SECRET =
   "dkflj9354dklfj309574dlkfj430958lkdjf430985klfj3098538jfdkfjd903583k3n3kj3l5j3k53n5jj5n";
 
-const session = require("express-session");
-const cookieParser = require("cookie-parser");
+const session = require("express-session"); // for using sessions in our application.
+const cookieParser = require("cookie-parser"); //  for using cookie in our application.
 app.use(cookieParser());
 app.use(
   session({
@@ -28,12 +30,15 @@ app.listen(5000, () => {
   console.log("Server Started");
 });
 
+//connecting with our mongoDB database using cloud mongoUrl
+
 mongoUrl =
-  // "mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/GLP?retryWrites=true&w=majority";
   "mongodb+srv://admin:pass@cluster0.ls2tvf7.mongodb.net/?retryWrites=true&w=majority";
+
 mongoose
   .connect(mongoUrl, { useNewUrlParser: true })
   .then(() => {
+    //this is for connecting with local database.
     // mongoose
     //   .connect("mongodb://127.0.0.1:27017/GLP", { useNewUrlParser: true })
     //   .then(() => {
@@ -43,10 +48,12 @@ mongoose
     console.log(e);
   });
 
+//base api for checking the connection.
 app.get("/", async (req, res) => {
   res.send("working");
 });
 
+//creating API that will fetch all the users available in the database.
 require("./User");
 const User = mongoose.model("Students");
 app.get("/getAllUser", async (req, res) => {
@@ -58,13 +65,10 @@ app.get("/getAllUser", async (req, res) => {
   }
 });
 
+//this API will fetch data from the Databae on the basis of parameters mentioned.
 require("./User");
 const FilteredUser = mongoose.model("Students");
 app.get("/getFilteredUser", async (req, res) => {
-  // const username = req.query.username;
-  // const email = req.query.email;
-  // const domain = req.query.domain;
-  // const params = req.query.param;
   const { uname, domain } = req.query;
   try {
     const allUser = await FilteredUser.find({ Domain: domain, Name: uname });
@@ -74,6 +78,8 @@ app.get("/getFilteredUser", async (req, res) => {
     console.log(error);
   }
 });
+
+// This post API  is used for login Purpose, it takes email, and passwords, checks if the given email exists in database if not returns error, else converts the password into hashes and compares it with password hash in the database.
 
 app.post("/Userlogin", async (req, res) => {
   try {
@@ -85,16 +91,15 @@ app.post("/Userlogin", async (req, res) => {
     }
 
     if (await bcrypt.compare(password, user.password)) {
-      // const token = jwt.sign({ email }, JWT_SECRET);
-      // if (res.status(201)) {
-      //   // return res.json({ status: "ok1" });
-      //   return res.json({ status: "ok", data: { User } });
-      // } else {
-      //   return res.json({ error: "error" });
-      // }
+      const token = jwt.sign({ email }, JWT_SECRET);
+      if (res.status(201)) {
+        return res.json({ status: "ok", data: { User } });
+      } else {
+        return res.json({ error: "error" });
+      }
 
-      // req.session.userId = user.email;
-      // res.send("Logged in");
+      req.session.userId = user.email;
+      res.send("Logged in");
 
       return res.json({
         status: "ok",
@@ -109,9 +114,9 @@ app.post("/Userlogin", async (req, res) => {
   }
 });
 
+//This API creates a user in Database.
 app.post("/UserCreate", async (req, res) => {
   const { username, branch, year, email, password, confirmpassword } = req.body;
-  // console.log(req.body);
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
     oldUser = await User.findOne({ email });
